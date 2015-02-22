@@ -1,0 +1,25 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Profile</title>
+</head>
+<body>
+	<form method='post' action='index.php' enctype='multipart/form-data'>
+		Выберите файл: <input type='file' name='filename' size='10' /><br><br>
+		Комментарий: <input type='text' name='comment' size='100' maxlength="500" /><br><br>
+		<input type='submit' value='Загрузить' />
+	</form>
+	
+  <?if($load):?>
+	<p>Тип файла: <?= htmlspecialchars($file->showType()) ?></p>
+	<p>Имя файла: <?= htmlspecialchars($file->showName()) ?></p>
+	<p>Размер файла: <?= htmlspecialchars($file->showSize()) ?></p>
+	<p>Ваш комментарий: <?= htmlspecialchars($file->showComment()) ?></p>
+	<p>Ваша ссылка: <a href="file.php/<?= htmlspecialchars($id) ?>">file.php/<?= htmlspecialchars($id) ?></a></p>
+ <?endif;?>
+
+	<a href="list.php">Последние загруженные</a>
+</body>
+</html>

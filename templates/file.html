@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>File</title>
+</head>
+<body>
+	<p>Тип файла: <?= htmlspecialchars($file->showType()) ?></p>
+	<p>Имя файла: <?= htmlspecialchars($file->showName()) ?></p>
+	<p>Размер файла: <?= htmlspecialchars($file->showSize()) ?></p>
+	<p>Врремя загрузки: <?= htmlspecialchars($file->showUploadtime()) ?></p>
+	<p>Комментарий: <?= htmlspecialchars($file->showComment()) ?></p>
+
+
+	<form method='post' action=''>
+		<input type='submit' name="submit" value='скачать' />
+	</form>
+	
+
+</body>
+</html>
