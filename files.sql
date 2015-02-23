@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: 127.0.0.1
--- Время создания: Фев 22 2015 г., 17:45
+-- Время создания: Фев 23 2015 г., 21:48
 -- Версия сервера: 5.5.25
 -- Версия PHP: 5.3.13
 
@@ -41,9 +41,9 @@ CREATE TABLE IF NOT EXISTS `files` (
 --
 
 INSERT INTO `files` (`id`, `type`, `name`, `size`, `uploadtime`, `comment`) VALUES
-(1, 'image/jpeg', 'hotkeysublime.jpg', 676750, '2015-02-22 13:30:56', 'sub'),
-(2, 'image/jpeg', 'LdRVGqHYAAM.jpg', 107244, '2015-02-22 13:31:25', 'asm'),
-(3, 'text/plain', 'file.txt', 14, '2015-02-22 13:33:07', 'hello');
+(1, 'image/jpeg', '14246322457130.jpg', 314070, '2015-02-23 17:37:15', 'wrk'),
+(2, 'image/jpeg', 'hotkeysublime.jpg', 676750, '2015-02-23 17:37:27', 'subl'),
+(3, 'application/pdf', 'Radygin.pdf', 298010, '2015-02-23 17:38:09', '');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

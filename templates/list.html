@@ -1,24 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Files</title>
-</head>
-<body>
+<h1>Последние загруженные:</h1>
+<a href="/upload">Вернуться к загрузке</a>
+<br>
+<br>
 
-	<h1>Последние загруженные:</h1>
-	<a href="index.php">Вернуться к загрузке</a>
-	<br>
-	<br>
-
-	<?  for($i=0;$i<$numfiles;$i++):?>
-			<?= htmlspecialchars($list[$i]->showType()) ?>     <br /> 
-			<?= htmlspecialchars($list[$i]->showName()) ?>  <br />
-			<?= htmlspecialchars($list[$i]->showSize()) ?> <br />
-			<p><a href="file.php/<?= htmlspecialchars($list[$i]->showID()) ?>">Загрузить</a></p>
-			<br>
-			<br>
-	<? endfor; ?>
-
-</body>
-</html>
+<?  for($i=0;$i<$numfiles;$i++):?>
+		<?= htmlspecialchars($list[$i]->getType()) ?>     <br /> 
+		<?= htmlspecialchars($list[$i]->getName()) ?>  <br />
+		<?= htmlspecialchars($list[$i]->getSize()) ?> <br />
+		<p><a href="file/<?= htmlspecialchars($list[$i]->getID()) ?>">Загрузить</a></p>
+		<br>
+		<br>
+<? endfor; ?>
