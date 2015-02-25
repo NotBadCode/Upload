@@ -8,6 +8,7 @@ class File
     protected $size;
     protected $uploadtime;
     protected $comment;
+    protected $code;
     
     
 
@@ -22,6 +23,17 @@ class File
         $this->size = $data['size'];
         $this->uploadtime = $data['uploadtime'];
         $this->comment = $data['comment'];
+    }
+
+    public function generateCode()
+    {
+        $string = "abcdefghijklmnopqrstuvwxyz1234567890";
+        $length = 36;
+        for ($i = 0; $i <= 31; $i++) {
+            $newcode .= $string[mt_rand(0, 35)];
+        }
+        
+        $this->code = $newcode;
     }
 
     public function getID()
@@ -52,7 +64,12 @@ class File
     public function getComment()
     {
         return $this->comment;
-    }      
+    } 
+
+    public function getCode()
+    {
+        return $this->code;
+    }     
 
 }
 ?>

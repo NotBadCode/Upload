@@ -33,20 +33,24 @@ $app->post('/', function() use ($app)
 {
     $mapper = $app->newDM;
     $file   = $app->newFile;
-    
-    if ($_FILES) {
+
+    if ($_FILES['filename']['name']!="") {
         
         $data['type']    = $_FILES['filename']['type'];
         $data['name']    = $_FILES['filename']['name'];
         $data['size']    = $_FILES['filename']['size'];
         $data['comment'] = $_POST['comment'];
         
-        
+        $file->generateCode();
+            while ($mapper->iscodeUsed($file->getCode())) {
+                $file->generateCode();
+        }
+        $code=$file->getCode();
         $file->setFields($data);
         $id = $mapper->addFile($file);
         
         $name = $_FILES['filename']['name'];
-        move_uploaded_file($_FILES['filename']['tmp_name'], "files/$name");
+        move_uploaded_file($_FILES['filename']['tmp_name'], "files/$code.$name");
         
         $load = 1;
     }
@@ -63,14 +67,13 @@ $app->post('/', function() use ($app)
 $app->get('/list', function() use ($app)
 {
     $mapper = $app->newDM;
-    
     $list     = $mapper->getAllFiles();
     $numfiles = count($list);
     
     $app->render('/header.html');
     $app->render('/list.html', array(
         'list' => $list,
-        'numfiles' => $numfiles
+        'numfiles' => $numfiles,
     ));
     $app->render('/footer.html');
 });
@@ -80,8 +83,8 @@ $app->get('/file/:id', function($id) use ($app)
     $mapper  = $app->newDM;
     $file    = $app->newFile;
     
-
     $file    = $mapper->getFilebyID($id);
+    $filesize = round($file->getSize()/1048576, 3);
     
     $showimg = 0;
     $RegExp = "/^image/ui";
@@ -90,13 +93,16 @@ $app->get('/file/:id', function($id) use ($app)
     }
 
     if (isset($_GET['submit'])) {
+        
+
         $filename = $file->getName();
-        $filesize = $file->getSize();
         $filetype = $file->getType();
+        $code=$file->getCode();
+
         header("Content-Type: $filetype");
         header("Content-Disposition: attachment; filename=\"" . basename($filename) . "\";");
-        header("Content-Length: " . $filesize);
-        readfile("files/$filename");
+        header("Content-Length: " . $file->getSize());
+        readfile("files/$code.$filename");
     }
     
     
@@ -104,7 +110,8 @@ $app->get('/file/:id', function($id) use ($app)
     $app->render('/header.html');
     $app->render('/file.html', array(
         'file' => $file,
-        'showimg' => $showimg
+        'showimg' => $showimg,
+        'filesize' => $filesize
     ));
     $app->render('/footer.html');
 });

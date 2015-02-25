@@ -2,11 +2,11 @@
 
 <p>Тип файла: <?= htmlspecialchars($file->getType()) ?></p>
 <p>Имя файла: <?= htmlspecialchars($file->getName()) ?></p>
-<p>Размер файла: <?= htmlspecialchars($file->getSize()) ?></p>
+<p>Размер файла: <?= htmlspecialchars($filesize) ?> Mb</p>
 <p>Врремя загрузки: <?= htmlspecialchars($file->getUploadtime()) ?></p>
 <p>Комментарий: <?= htmlspecialchars($file->getComment()) ?></p>
 
-<? if($showimg): ?><img src="../files/<?= $file->getName() ?>" alt="превью недоступно" style="width: 250px;"><? endif; ?>
+<? if($showimg): ?><img src="../files/<?=$file->getCode()?>.<?=$file->getName() ?>" alt="превью недоступно" style="width: 250px;"><? endif; ?>
 
 <form method='get' action=''>
 	<input type='submit' name="submit" value='скачать' />

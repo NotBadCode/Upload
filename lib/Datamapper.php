@@ -11,7 +11,7 @@ class DataMapper
     public function getFilebyID($id)
     {
         $STH = $this->DBH->prepare("SELECT * FROM files WHERE id=:id");
-        $STH->bindparam(":id", $id);
+        $STH->bindvalue(":id", $id);
         $STH->execute();
         $STH->setFetchMode(PDO::FETCH_CLASS, 'file');
         return $STH->fetch();
@@ -29,22 +29,28 @@ class DataMapper
     public function addFile(File $file)
     {
         
-        $STH = $this->DBH->prepare("INSERT INTO files (type, name, size, comment) 
-            VALUES (:type, :name, :size, :comment)");
+        $STH = $this->DBH->prepare("INSERT INTO files (type, name, size, comment, code) 
+            VALUES (:type, :name, :size, :comment, :code)");
         
-        $STH->bindparam(":type", $type);
-        $STH->bindparam(":name", $name);
-        $STH->bindparam(":size", $size);
-        $STH->bindparam(":comment", $comment);
+        $STH->bindvalue(":type", $file->getType());
+        $STH->bindvalue(":name", $file->getName());
+        $STH->bindvalue(":size", $file->getSize());
+        $STH->bindvalue(":comment", $file->getComment());
+        $STH->bindvalue(":code", $file->getCode());
         
-        $type    = $file->getType();
-        $name    = $file->getName();
-        $size    = $file->getSize();
-        $comment = $file->getComment();
-        
+
         
         $STH->execute();
         return $this->DBH->lastInsertId();
+    }
+
+    public function iscodeUsed($code)
+    {
+        $STH = $this->DBH->prepare("SELECT * FROM files WHERE code=:code");
+        $STH->bindValue(":code", $code);
+        $STH->execute();
+        $STH->setFetchMode(PDO::FETCH_CLASS, 'profile');
+        return $STH->fetch();
     }
     
 }

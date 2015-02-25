@@ -6,7 +6,7 @@
 <?  for($i=0;$i<$numfiles;$i++):?>
 		<?= htmlspecialchars($list[$i]->getType()) ?>     <br /> 
 		<?= htmlspecialchars($list[$i]->getName()) ?>  <br />
-		<?= htmlspecialchars($list[$i]->getSize()) ?> <br />
+		<?= htmlspecialchars(round($list[$i]->getSize()/1048576, 3)) ?> Мб <br />
 		<p><a href="file/<?= htmlspecialchars($list[$i]->getID()) ?>">Загрузить</a></p>
 		<br>
 		<br>
