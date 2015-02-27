@@ -3,22 +3,24 @@
 require_once "vendor/autoload.php";
 
 \Slim\Slim::registerAutoloader();
-$app = new \Slim\Slim();
+$twigView = new \Slim\Views\Twig();
+
+$app = new \Slim\Slim(array(
+    'dbhost' => 'localhost', //имя базы данных
+    'dbuser' => 'root', //имя пользователя базы данных
+    'dbpassword' => '', //пароль к базе данных
+    'dbname' => 'files', //имя базы данных
+    'view' => $twigView,
+    'templates.path' => 'templates/'
+));
 
 $file = new File();
 
-$app->container->singleton('PDO', function()
+$app->container->singleton('newFilesMapper', function() use ($app)
 {
-    require_once "/lib/config.php";
-    $DBH = new PDO("mysql:host=$host;dbname=$dbname", $user, $pass);
+    $dbc = 'mysql:host=' . $app->config('dbhost') . ';dbname=' . $app->config('dbname');
+    $DBH = new PDO($dbc, $app->config('dbuser'), $app->config('dbpassword'));
     $DBH->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    return $DBH;
-});
-
-$DBH=$app->PDO;
-
-$app->container->singleton('newFilesMapper', function() use ($DBH)
-{
     return new FileMapper($DBH);
 });
 
@@ -51,8 +53,8 @@ $app->post('/', function() use ($app, $file)
                         
         $code = $file->getCode();
         $file->setFields($data);
-        $id = $mapper->addFile($file);
-        
+        $mapper->addFile($file);
+        $id = $file->getID();
         $name = $_FILES['filename']['name'];
         move_uploaded_file($_FILES['filename']['tmp_name'], "files/$code.$name");
         
@@ -80,9 +82,9 @@ $app->get('/list', function() use ($app, $file)
 
 $app->get('/file/:id', function($id) use ($app, $file)
 {
-    $mapper  = $app->newFilesMapper;
+    $mapper   = $app->newFilesMapper;
     
-    $file    = $mapper->getFilebyID($id);
+    $file     = $mapper->getFilebyID($id);
     $filesize = round($file->getSize()/1048576, 3);
     
     $showimg = 0;

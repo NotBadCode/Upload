@@ -38,8 +38,9 @@ class FileMapper
         $STH->bindvalue(":comment", $file->getComment());
         $STH->bindvalue(":code", $file->getCode());
             
+
         $STH->execute();
-        return $this->DBH->lastInsertId();
+        $file->setID($this->DBH->lastInsertId());
     }
 
     public function iscodeUsed($code)
@@ -52,4 +53,3 @@ class FileMapper
     }
     
 }
-?>

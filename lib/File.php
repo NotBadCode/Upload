@@ -24,6 +24,11 @@ class File
         $this->comment = $data['comment'];
     }
 
+    public function setID($id)
+    {
+        $this->id = $id;
+    }
+
     public function generateCode()
     {
         $string = "abcdefghijklmnopqrstuvwxyz1234567890";
@@ -72,4 +77,3 @@ class File
     }     
 
 }
-?>

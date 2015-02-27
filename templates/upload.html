@@ -1,19 +1,23 @@
-<? require "header.html";?>
+{% extends "base.html" %}
 
-<form method='post' action='' enctype='multipart/form-data'>
-	Выберите файл: <input type='file' name='filename' size='10' /><br><br>
-	Комментарий: <input type='text' name='comment' size='100' maxlength="500" /><br><br>
-	<input type='submit' value='Загрузить' />
-</form>
+{% block content %}
 
-<?if($load):?>
-	<p>Тип файла: <?= htmlspecialchars($file->getType()) ?></p>
-	<p>Имя файла: <?= htmlspecialchars($file->getName()) ?></p>
-	<p>Размер файла: <?= htmlspecialchars($file->getSize()) ?></p>
-	<p>Ваш комментарий: <?= htmlspecialchars($file->getComment()) ?></p>
-	<p>Ваша ссылка: <a href="file/<?= htmlspecialchars($id) ?>">file/<?= htmlspecialchars($id) ?></a></p>
-<?endif;?>
+    <form method='post' action='' enctype='multipart/form-data'>
+    	Выберите файл: <input type='file' name='filename' size='10' /><br><br>
+    	Комментарий: <input type='text' name='comment' size='100' maxlength="500" /><br><br>
+    	<input type='submit' value='Загрузить' />
+    </form>
 
-<a href="list">Последние загруженные</a>
+    {% if(load) %}
 
-<? require "footer.html";?>
+    	<p>Тип файла: {{ file.getType() }} </p>
+    	<p>Имя файла: {{ file.getName() }} </p>
+    	<p>Размер файла: {{ file.getSize() }} </p>
+    	<p>Ваш комментарий: {{ file.getComment() }} </p>
+    	<p>Ваша ссылка: <a href="file/{{ id }}">file/{{ id }}</a></p>
+        
+    {% endif %}
+
+    <a href="list">Последние загруженные</a>
+
+{% endblock %}
