@@ -12,10 +12,10 @@
 
     	<p>Тип файла: {{ file.getType() }} </p>
     	<p>Имя файла: {{ file.getName() }} </p>
-    	<p>Размер файла: {{ file.getSize() }} </p>
+    	<p>Размер файла: {{ (file.getSize()/1048576)|round(2, 'ceil') }} Mb</p>
     	<p>Ваш комментарий: {{ file.getComment() }} </p>
     	<p>Ваша ссылка: <a href="file/{{ id }}">file/{{ id }}</a></p>
-        
+
     {% endif %}
 
     <a href="list">Последние загруженные</a>

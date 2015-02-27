@@ -6,20 +6,31 @@ require_once "vendor/autoload.php";
 $twigView = new \Slim\Views\Twig();
 
 $app = new \Slim\Slim(array(
-    'dbhost' => 'localhost', //имя базы данных
-    'dbuser' => 'root', //имя пользователя базы данных
-    'dbpassword' => '', //пароль к базе данных
-    'dbname' => 'files', //имя базы данных
+    'dbhost' => 'localhost', 
+    'dbuser' => 'root', 
+    'dbpassword' => '', 
+    'dbname' => 'files', 
     'view' => $twigView,
     'templates.path' => 'templates/'
 ));
+
+$view = $app->view();
+$view->parserOptions = array(
+    'debug' => true,
+    'cache' => dirname(__FILE__) . '/tmp/cache',
+    'auto_reload' => true
+);
+
+$view->parserExtensions = array(
+    new \Slim\Views\TwigExtension(),
+);
 
 $file = new File();
 
 $app->container->singleton('newFilesMapper', function() use ($app)
 {
-    $dbc = 'mysql:host=' . $app->config('dbhost') . ';dbname=' . $app->config('dbname');
-    $DBH = new PDO($dbc, $app->config('dbuser'), $app->config('dbpassword'));
+    $DBC = 'mysql:host=' . $app->config('dbhost') . ';dbname=' . $app->config('dbname');
+    $DBH = new PDO($DBC, $app->config('dbuser'), $app->config('dbpassword'));
     $DBH->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     return new FileMapper($DBH);
 });
@@ -29,6 +40,7 @@ $app->get('/', function() use ($app, $file)
     $load = 0;
     $id = 0;
     
+
     $app->render('/upload.html', array(
         'file' => $file,
         'load' => $load,
@@ -39,6 +51,7 @@ $app->get('/', function() use ($app, $file)
 $app->post('/', function() use ($app, $file)
 {
     $mapper = $app->newFilesMapper;
+    $i = 0;
 
     if ($_FILES['filename']['name']!="") {
         
@@ -46,9 +59,15 @@ $app->post('/', function() use ($app, $file)
         $data['name']    = $_FILES['filename']['name'];
         $data['size']    = $_FILES['filename']['size'];
         $data['comment'] = $_POST['comment'];
-        
+
+        $numfiles = count($mapper->getAllFiles()); //oi kak ne effektivnoooo!
         do {
             $file->generateCode();
+            $i++;
+            if($i>$numfiles){
+                echo "Ошибка загрузки";
+                die();
+            }
         } while ($mapper->iscodeUsed($file->getCode()));
                         
         $code = $file->getCode();
@@ -85,6 +104,11 @@ $app->get('/file/:id', function($id) use ($app, $file)
     $mapper   = $app->newFilesMapper;
     
     $file     = $mapper->getFilebyID($id);
+       
+    if(!$file){
+        $app->notFound();
+        die();
+    }
     $filesize = round($file->getSize()/1048576, 3);
     
     $showimg = 0;
