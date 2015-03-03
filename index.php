@@ -26,6 +26,7 @@ $view->parserExtensions = array(
 );
 
 $file = new File();
+$comment = new Comment();
 
 $app->container->singleton('newFilesMapper', function() use ($app)
 {
@@ -102,7 +103,6 @@ $app->get('/list', function() use ($app, $file)
 $app->get('/file/:id', function($id) use ($app, $file)
 {
     $mapper   = $app->newFilesMapper;
-    
     $file     = $mapper->getFilebyID($id);
        
     if(!$file){
@@ -133,10 +133,52 @@ $app->get('/file/:id', function($id) use ($app, $file)
         die();
     }
        
+    $comments = $mapper->getAllComments($id);
+
     $app->render('/file.html', array(
         'file' => $file,
         'showimg' => $showimg,
-        'filesize' => $filesize
+        'filesize' => $filesize,
+        'comments' => $comments
+    ));
+});
+
+$app->post('/file/:id', function($id) use ($app, $file, $comment)
+{
+    $mapper   = $app->newFilesMapper;  
+    $file     = $mapper->getFilebyID($id);
+       
+    if(!$file){
+        $app->notFound();
+        die();
+    }
+    $filesize = round($file->getSize()/1048576, 3);
+    
+    $showimg = 0;
+    $RegExp = "/^image/ui";
+    if (preg_match($RegExp, $file->getType())) {
+        $showimg = 1;
+    }
+
+    if (isset($_POST['submitcom']) && $_POST['text']!="") {
+        
+        $data['fileid']  = $id;
+        $data['name']  = ($_POST['name']=="" ? "Аноним" : $_POST['name']);
+        $data['text']  = $_POST['text'];
+        $data['path']  = ($_POST['path']=="" ? 1 : $_POST['path']);;
+
+        $comment->setFields($data);
+        $mapper->addComment($comment);
+
+    }
+       
+    $comments = $mapper->getAllComments($id);
+
+    $app->render('/file.html', array(
+        'file' => $file,
+        'showimg' => $showimg,
+        'filesize' => $filesize,
+        'comments' => $comments
     ));
 });
 
