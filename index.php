@@ -124,10 +124,12 @@ $app->get('/file/:id', function($id) use ($app, $file)
         $filetype = $file->getType();
         $code=$file->getCode();
 
+        // header("X-SendFile: files/$code.$filename");
         header("Content-Type: $filetype");
         header("Content-Disposition: attachment; filename=\"" . basename($filename) . "\";");
         header("Content-Length: " . $file->getSize());
         readfile("files/$code.$filename");
+
         die();
     }
        
