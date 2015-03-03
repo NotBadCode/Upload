@@ -54,7 +54,7 @@ class FileMapper
     public function getAllComments($id)
     {
 
-        $STH = $this->DBH->prepare("SELECT * FROM comments WHERE fileid=:id");
+        $STH = $this->DBH->prepare("SELECT * FROM comments WHERE fileid=:id ORDER BY path");
         $STH->bindValue(":id", $id);
         $STH->execute();
         return $STH->fetchAll(PDO::FETCH_CLASS, "comment");

@@ -163,7 +163,7 @@ $app->post('/file/:id', function($id) use ($app, $file, $comment)
         $data['fileid']  = $id;
         $data['name']  = ($_POST['name']=="" ? "Аноним" : $_POST['name']);
         $data['text']  = $_POST['text'];
-        $data['path']  = ($_POST['path']=="" ? 1 : $_POST['path']);;
+        $data['path']  = ($_POST['path']=="" ? "" : $_POST['path']);;
 
         $comment->setFields($data);
         $mapper->addComment($comment);
