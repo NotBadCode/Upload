@@ -92,11 +92,9 @@ $app->get('/list', function() use ($app, $file)
 {
     $mapper = $app->newFilesMapper;
     $list     = $mapper->getAllFiles();
-    $numfiles = count($list);
     
     $app->render('/list.html', array(
-        'list' => $list,
-        'numfiles' => $numfiles,
+        'list' => $list
     ));
 });
 

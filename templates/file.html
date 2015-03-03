@@ -20,22 +20,24 @@
     	<input type='submit' name="submit" value='скачать'>
     </form>
     
-    <br>
-    <br>
-
-    {% for comment in comments %}
-        {{ comment.getTime() }}                      <br> 
-        {{ comment.getName() }}                      <br> 
-        {{ comment.getText() }}                      <br>
-        <br>
-        <br>
-    {% endfor %}
+    <br><br>
     
-    <br>
-    <br>
-    
-    <p>Оставть комментарий:</p>
     <form method='post' action=''>
+        <input type='radio' name='path' value='' /><br> <br> 
+
+        {% for comment in comments %}
+            {{ comment.getTime() }}                      <br> 
+            {{ comment.getName() }}                      <br> 
+            {{ comment.getText() }}                      <br>
+            <input type='radio' name='path' value='{{ comment.getPath() }}'/>
+            <br>
+            <br>
+        {% endfor %}
+        
+        <br>
+        <br>
+        
+        <p>Оставть комментарий:</p>
         <input type='text' name='name' size='50' maxlength="100" /><br><br>
         <input type='text' name='text' size='100' maxlength="200" /><br><br>
         <input type='submit' name="submitcom" value='отправить'>

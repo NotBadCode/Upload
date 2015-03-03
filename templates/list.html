@@ -7,11 +7,11 @@
     <br>
     <br>
 
-    {% for i in 0..numfiles-1 %}
-		{{ list[i].getType() }}                      <br/> 
-		{{ list[i].getName() }}                      <br/>
-		{{ (list[i].getSize()/1048576)|round(2, 'ceil') }} Mb <br/>
-		<p><a href="file/{{ list[i].getID() }}">Загрузить</a></p>
+    {% for file in list %}
+		{{ file.getType() }}                      <br/> 
+		{{ file.getName() }}                      <br/>
+		{{ (file.getSize()/1048576)|round(2, 'ceil') }} Mb <br/>
+		<p><a href="file/{{ file.getID() }}">Загрузить</a></p>
 		<br>
 		<br>
     {% endfor %}
