@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: 127.0.0.1
--- Время создания: Фев 27 2015 г., 17:30
+-- Время создания: Мар 04 2015 г., 00:44
 -- Версия сервера: 5.5.25
 -- Версия PHP: 5.3.13
 
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `files` (
   `comment` varchar(500) NOT NULL,
   `code` varchar(32) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
 
 --
 -- Дамп данных таблицы `files`
@@ -53,7 +53,8 @@ INSERT INTO `files` (`id`, `type`, `name`, `size`, `uploadtime`, `comment`, `cod
 (9, 'application/pdf', 'c-ruby.pdf', 194329, '2015-02-27 12:58:00', '', '5lndel7smra95dx2xvy950exy2jg3s5q'),
 (10, 'application/pdf', 'c-ruby.pdf', 194329, '2015-02-27 12:58:14', '', 'b4o0y3cf63rw3ftfthbf7zo3xc02bpgn'),
 (11, 'application/pdf', 'c-ruby.pdf', 194329, '2015-02-27 12:58:24', '', 'xhfb10db6ltao4opmu0mmj5hvv6ennfg'),
-(12, 'image/jpeg', '14246322457130.jpg', 314070, '2015-02-27 13:29:41', '', 'i8ymz5m36etmedl3idnuftnuwp2kg6k4');
+(12, 'image/jpeg', '14246322457130.jpg', 314070, '2015-02-27 13:29:41', '', 'i8ymz5m36etmedl3idnuftnuwp2kg6k4'),
+(13, 'image/png', '128.png', 20922, '2015-03-03 19:07:08', '', 'whdtkctdadmy75nw5900qlgb73c60zhc');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

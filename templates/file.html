@@ -26,10 +26,13 @@
         <input type='radio' name='path' value='' /><br> <br> 
 
         {% for comment in comments %}
-            {{ comment.getTime() }}                      <br> 
-            {{ comment.getName() }}                      <br> 
-            {{ comment.getText() }}                      <br>
-            <input type='radio' name='path' value='{{ comment.getPath() }}'/>
+            <div style="margin-left: {{ (comment.getPath()|length)*10 }}px;">
+                {{ comment.getTime() }}                      <br> 
+                {{ comment.getName() }}                      <br> 
+                {{ comment.getText() }}                      <br>
+                Ответить<input type='radio' name='path' value='{{ comment.getPath() }}'/>
+            </div>
+            
             <br>
             <br>
         {% endfor %}
