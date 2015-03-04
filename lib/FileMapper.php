@@ -62,16 +62,33 @@ class FileMapper
 
     public function addComment(Comment $comment)
     {
-        $STH = $this->DBH->prepare("SELECT COUNT(*) FROM comments WHERE path LIKE :path'._' ");
-        $STH->bindvalue(":path", $comment->getPath());
-        $num=$STH->execute();
+        $STH = $this->DBH->prepare("SELECT COUNT(*) FROM comments WHERE path LIKE :path");
+
+        if($comment->getPath()==""){
+            $STH->bindvalue(":path", '_');
+        }
+        else{
+            $STH->bindvalue(":path", $comment->getPath().'._');
+        }
+
+        $STH->execute();
+        $num = $STH->fetchColumn();
         $num++;
+
+
 
         $STH = $this->DBH->prepare("INSERT INTO comments (number, path, name, fileid, text) 
             VALUES (:number, :path, :name, :fileid, :text)");
         
         $STH->bindvalue(":number", $num);
-        $STH->bindvalue(":path", $comment->getPath().".$num");
+        
+        if($comment->getPath()==""){
+            $STH->bindvalue(":path", "$num");
+        }
+        else{
+            $STH->bindvalue(":path", $comment->getPath().".$num");
+        }
+
         $STH->bindvalue(":name", $comment->getName());
         $STH->bindvalue(":fileid", $comment->getFileID());
         $STH->bindvalue(":text", $comment->getText());
