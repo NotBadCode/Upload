@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: 127.0.0.1
--- Время создания: Мар 05 2015 г., 23:19
+-- Время создания: Мар 05 2015 г., 23:30
 -- Версия сервера: 5.5.25
 -- Версия PHP: 5.3.13
 
@@ -34,7 +34,8 @@ CREATE TABLE IF NOT EXISTS `comments` (
   `fileid` int(11) NOT NULL,
   `text` varchar(200) NOT NULL,
   `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `fileid` (`fileid`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
 
 --
@@ -97,6 +98,16 @@ INSERT INTO `files` (`id`, `type`, `name`, `size`, `uploadtime`, `comment`, `cod
 (14, 'image/jpeg', 'hotkeysublime.jpg', 676750, '2015-03-05 15:14:40', '', '1cwatmykpntkl3xpfwleywvug3i0skkc'),
 (15, 'image/jpeg', 'fizr.jpg', 123301, '2015-03-05 16:07:08', '', 's5l2iinzt98o31dasrs4c636cjrrjdry'),
 (16, 'image/jpeg', 'fizr.jpg', 123301, '2015-03-05 16:07:30', '', '4nwebzoygjnobvro7bsqokvdqtuknjjp');
+
+--
+-- Ограничения внешнего ключа сохраненных таблиц
+--
+
+--
+-- Ограничения внешнего ключа таблицы `comments`
+--
+ALTER TABLE `comments`
+  ADD CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`fileid`) REFERENCES `files` (`id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
