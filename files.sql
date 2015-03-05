@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: 127.0.0.1
--- Время создания: Мар 05 2015 г., 14:34
+-- Время создания: Мар 05 2015 г., 23:19
 -- Версия сервера: 5.5.25
 -- Версия PHP: 5.3.13
 
@@ -23,6 +23,45 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Структура таблицы `comments`
+--
+
+CREATE TABLE IF NOT EXISTS `comments` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `number` int(11) NOT NULL,
+  `path` varchar(100) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `fileid` int(11) NOT NULL,
+  `text` varchar(200) NOT NULL,
+  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
+
+--
+-- Дамп данных таблицы `comments`
+--
+
+INSERT INTO `comments` (`id`, `number`, `path`, `name`, `fileid`, `text`, `time`) VALUES
+(1, 1, '1', 'Аноним', 13, '2323', '2015-03-04 08:02:55'),
+(2, 2, '2', 'Аноним', 13, '123', '2015-03-04 08:02:57'),
+(3, 3, '3', 'Аноним', 13, '1111', '2015-03-04 08:03:00'),
+(4, 1, '1.1', 'Аноним', 13, '212', '2015-03-04 08:03:19'),
+(5, 1, '3.1', 'Аноним', 13, '2323', '2015-03-04 08:03:26'),
+(6, 1, '3.1.1', 'Аноним', 13, '23232', '2015-03-04 08:03:36'),
+(7, 1, '1.1.1', 'Аноним', 13, '23232323', '2015-03-04 08:03:45'),
+(8, 4, '4', 'Аноним', 12, '234', '2015-03-04 08:19:40'),
+(9, 1, '4.1', 'Аноним', 12, '2342', '2015-03-04 08:19:42'),
+(10, 1, '4.1.1', 'Аноним', 12, '234', '2015-03-04 08:19:44'),
+(11, 5, '5', 'Аноним', 12, '234', '2015-03-04 08:19:46'),
+(12, 6, '6', 'Аноним', 12, '23423', '2015-03-04 08:19:50'),
+(13, 1, '5.1', 'Аноним', 12, '234', '2015-03-04 08:19:53'),
+(14, 1, '6.1', 'Аноним', 12, '234', '2015-03-04 08:19:56'),
+(15, 2, '3.2', 'Аноним', 13, '5656', '2015-03-04 10:50:04'),
+(16, 1, '3.2.1', 'Аноним', 13, '54545', '2015-03-05 14:00:42');
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `files`
 --
 
@@ -35,7 +74,7 @@ CREATE TABLE IF NOT EXISTS `files` (
   `comment` varchar(500) NOT NULL,
   `code` varchar(32) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
 
 --
 -- Дамп данных таблицы `files`
@@ -54,7 +93,10 @@ INSERT INTO `files` (`id`, `type`, `name`, `size`, `uploadtime`, `comment`, `cod
 (10, 'application/pdf', 'c-ruby.pdf', 194329, '2015-02-27 12:58:14', '', 'b4o0y3cf63rw3ftfthbf7zo3xc02bpgn'),
 (11, 'application/pdf', 'c-ruby.pdf', 194329, '2015-02-27 12:58:24', '', 'xhfb10db6ltao4opmu0mmj5hvv6ennfg'),
 (12, 'image/jpeg', '14246322457130.jpg', 314070, '2015-02-27 13:29:41', '', 'i8ymz5m36etmedl3idnuftnuwp2kg6k4'),
-(13, 'image/png', '128.png', 20922, '2015-03-03 19:07:08', '', 'whdtkctdadmy75nw5900qlgb73c60zhc');
+(13, 'image/png', '128.png', 20922, '2015-03-03 19:07:08', '', 'whdtkctdadmy75nw5900qlgb73c60zhc'),
+(14, 'image/jpeg', 'hotkeysublime.jpg', 676750, '2015-03-05 15:14:40', '', '1cwatmykpntkl3xpfwleywvug3i0skkc'),
+(15, 'image/jpeg', 'fizr.jpg', 123301, '2015-03-05 16:07:08', '', 's5l2iinzt98o31dasrs4c636cjrrjdry'),
+(16, 'image/jpeg', 'fizr.jpg', 123301, '2015-03-05 16:07:30', '', '4nwebzoygjnobvro7bsqokvdqtuknjjp');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
