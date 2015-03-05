@@ -1,0 +1,15 @@
+{% extends "base.html.twig" %}
+
+{% block content %}
+
+    <h1>Последние загруженные:</h1>
+
+    <ul class="list-group">
+        {% for file in list %}                      
+    		<a href="{{ file.getID() }}" class="list-group-item">
+                {{ file.getName() }}  {{ (file.getSize()/1048576)|round(2, 'ceil') }} Mb
+            </a>                 
+        {% endfor %}
+    </ul>
+
+{% endblock %}

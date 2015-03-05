@@ -1,0 +1,47 @@
+{% extends "base.html.twig" %}
+
+{% block content %}
+    
+    <p>Тип файла: {{ file.getType() }} </p>
+    <p>Имя файла: {{ file.getName() }} </p>
+    <p>Размер файла: {{ filesize }} Mb </p>
+    <p>Врремя загрузки: {{ file.getUploadtime() }} </p>
+    <p>Комментарий: {{ file.getComment() }} </p>
+
+    {% if(showimg) %}
+        <img src="files/{{ file.getCode() }}.{{ file.getName() }}" alt="превью недоступно" class="img-polaroid" style="width: 250px;" >
+    {% endif %}
+
+    <form method='get' action=''>
+    	<input type='submit' name="submit" value='Скачать' class="btn btn-primary">
+    </form>
+      
+    <form method='post' action='' class="form-control input-group">
+        <legend>Комментарии</legend>
+        
+        <input type='radio' name='path' value=''><br> <br> 
+
+        {% for comment in comments %}
+            <div style="margin-left: {{ (comment.getPath()|length)*10 }}px;">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                {{ comment.getName() }}  {{ comment.getTime() }}
+                <label>Ответить <input type='radio' name='path' value='{{ comment.getPath() }}'></label>
+              </div>
+              <div class="panel-body">
+                {{ comment.getText() }} 
+              </div>
+            </div>
+                
+            </div>
+            
+        {% endfor %}
+        
+        
+        <p>Оставть комментарий:</p>
+        <input type='text' name='name'  maxlength="100"  placeholder="Имя">
+        <div><textarea name='text'maxlength="200" rows="3" placeholder="Ваш комментарий"></textarea></div>
+        <input type='submit' name="submitcom" value='Отправить' class="btn btn-primary">
+    </form>
+
+{% endblock %}

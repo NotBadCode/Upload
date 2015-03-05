@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: 127.0.0.1
--- Время создания: Мар 04 2015 г., 12:15
+-- Время создания: Мар 05 2015 г., 14:34
 -- Версия сервера: 5.5.25
 -- Версия PHP: 5.3.13
 
@@ -19,36 +19,6 @@ SET time_zone = "+00:00";
 --
 -- База данных: `files`
 --
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `comments`
---
-
-CREATE TABLE IF NOT EXISTS `comments` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `number` int(11) NOT NULL,
-  `path` text NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `fileid` int(11) NOT NULL,
-  `text` varchar(200) NOT NULL,
-  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
-
---
--- Дамп данных таблицы `comments`
---
-
-INSERT INTO `comments` (`id`, `number`, `path`, `name`, `fileid`, `text`, `time`) VALUES
-(1, 1, '1', 'Аноним', 13, '2323', '2015-03-04 08:02:55'),
-(2, 2, '2', 'Аноним', 13, '123', '2015-03-04 08:02:57'),
-(3, 3, '3', 'Аноним', 13, '1111', '2015-03-04 08:03:00'),
-(4, 1, '1.1', 'Аноним', 13, '212', '2015-03-04 08:03:19'),
-(5, 1, '3.1', 'Аноним', 13, '2323', '2015-03-04 08:03:26'),
-(6, 1, '3.1.1', 'Аноним', 13, '23232', '2015-03-04 08:03:36'),
-(7, 1, '1.1.1', 'Аноним', 13, '23232323', '2015-03-04 08:03:45');
 
 -- --------------------------------------------------------
 

@@ -1,0 +1,27 @@
+{% extends "base.html.twig" %}
+
+{% block content %}
+
+    <form method='post' action='' enctype='multipart/form-data'>
+        <div class="input-group form-control">
+            <legend>Загрузить новый файл</legend>
+
+            <lable>Выберите файл:</lable> 
+            <input type='file' name='filename' >
+            <lable>Оставьте комментарий:</lable> 
+            <div><textarea name='comment' maxlength="500" rows="3"></textarea></div> 
+            <input type='submit' value='Загрузить' class="btn btn-primary">
+        </div>  
+    </form>
+
+    {% if(load) %}
+
+    	<p>Тип файла: {{ file.getType() }} </p>
+    	<p>Имя файла: {{ file.getName() }} </p>
+    	<p>Размер файла: {{ (file.getSize()/1048576)|round(2, 'ceil') }} Mb</p>
+    	<p>Ваш комментарий: {{ file.getComment() }} </p>
+    	<p>Ваша ссылка: <a href="{{ id }}">upload/{{ id }}</a></p>
+
+    {% endif %}
+
+{% endblock %}

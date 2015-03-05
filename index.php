@@ -2,7 +2,6 @@
 
 require_once "vendor/autoload.php";
 
-\Slim\Slim::registerAutoloader();
 $twigView = new \Slim\Views\Twig();
 
 $app = new \Slim\Slim(array(
@@ -28,10 +27,22 @@ $view->parserExtensions = array(
 $file = new File();
 $comment = new Comment();
 
-$app->container->singleton('newFilesMapper', function() use ($app)
+$app->container->singleton('PDO', function() use ($app)
 {
     $DBC = 'mysql:host=' . $app->config('dbhost') . ';dbname=' . $app->config('dbname');
-    $DBH = new PDO($DBC, $app->config('dbuser'), $app->config('dbpassword'));
+    return new PDO($DBC, $app->config('dbuser'), $app->config('dbpassword'));
+});
+
+$app->container->singleton('CommentMapper', function() use ($app)
+{
+    $DBH = $app->PDO;
+    $DBH->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    return new CommentMapper($DBH);
+});
+
+$app->container->singleton('FileMapper', function() use ($app)
+{
+    $DBH = $app->PDO;
     $DBH->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     return new FileMapper($DBH);
 });
@@ -42,7 +53,7 @@ $app->get('/', function() use ($app, $file)
     $id = 0;
     
 
-    $app->render('/upload.html', array(
+    $app->render('/upload.html.twig', array(
         'file' => $file,
         'load' => $load,
         'id' => $id
@@ -51,7 +62,7 @@ $app->get('/', function() use ($app, $file)
 
 $app->post('/', function() use ($app, $file)
 {
-    $mapper = $app->newFilesMapper;
+    $mapper = $app->FileMapper;
     $i = 0;
 
     if ($_FILES['filename']['name']!="") {
@@ -61,11 +72,10 @@ $app->post('/', function() use ($app, $file)
         $data['size']    = $_FILES['filename']['size'];
         $data['comment'] = $_POST['comment'];
 
-        $numfiles = count($mapper->getAllFiles()); //oi kak ne effektivnoooo!
         do {
             $file->generateCode();
             $i++;
-            if($i>$numfiles){
+            if($i > 50){
                 echo "Ошибка загрузки";
                 die();
             }
@@ -81,7 +91,7 @@ $app->post('/', function() use ($app, $file)
         $load = 1;
     }
     
-    $app->render('/upload.html', array(
+    $app->render('/upload.html.twig', array(
         'file' => $file,
         'load' => $load,
         'id' => $id
@@ -90,18 +100,19 @@ $app->post('/', function() use ($app, $file)
 
 $app->get('/list', function() use ($app, $file)
 {
-    $mapper = $app->newFilesMapper;
+    $mapper = $app->FileMapper;
     $list     = $mapper->getAllFiles();
     
-    $app->render('/list.html', array(
+    $app->render('/list.html.twig', array(
         'list' => $list
     ));
 });
 
-$app->get('/file/:id', function($id) use ($app, $file)
+$app->get('/:id', function($id) use ($app, $file)
 {
-    $mapper   = $app->newFilesMapper;
-    $file     = $mapper->getFilebyID($id);
+    $cmapper = $app->CommentMapper;
+    $fmapper = $app->FileMapper;
+    $file    = $fmapper->getFilebyID($id);
        
     if(!$file){
         $app->notFound();
@@ -131,9 +142,9 @@ $app->get('/file/:id', function($id) use ($app, $file)
         die();
     }
        
-    $comments = $mapper->getAllComments($id);
+    $comments = $cmapper->getAllComments($id);
 
-    $app->render('/file.html', array(
+    $app->render('/file.html.twig', array(
         'file' => $file,
         'showimg' => $showimg,
         'filesize' => $filesize,
@@ -141,9 +152,10 @@ $app->get('/file/:id', function($id) use ($app, $file)
     ));
 });
 
-$app->post('/file/:id', function($id) use ($app, $file, $comment)
+$app->post('/:id', function($id) use ($app, $file, $comment)
 {
-    $mapper   = $app->newFilesMapper;  
+    $cmapper  = $app->CommentMapper;
+    $mapper   = $app->FileMapper;  
     $file     = $mapper->getFilebyID($id);
        
     if(!$file){
@@ -166,13 +178,13 @@ $app->post('/file/:id', function($id) use ($app, $file, $comment)
         $data['path']  = ($_POST['path']=="" ? "" : $_POST['path']);;
 
         $comment->setFields($data);
-        $mapper->addComment($comment);
+        $cmapper->addComment($comment);
 
     }
        
-    $comments = $mapper->getAllComments($id);
+    $comments = $cmapper->getAllComments($id);
 
-    $app->render('/file.html', array(
+    $app->render('/file.html.twig', array(
         'file' => $file,
         'showimg' => $showimg,
         'filesize' => $filesize,

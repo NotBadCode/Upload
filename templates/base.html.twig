@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>File</title>
+    <link href="vendor/twbs/bootstrap/dist/css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-default">
+            <a href="/upload" class="navbar-brand">На главную</a>
+            <a href="/upload/list" class="navbar-brand">Последние загруженные</a>
+        </nav>
+    </header>
+    
+    <div class="container-fluid">
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>
