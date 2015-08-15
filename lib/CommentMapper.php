@@ -54,5 +54,35 @@ class CommentMapper
         $STH->execute();
         $comment->setID($this->DBH->lastInsertId());
     }
+
+    public function getCommentsByNode($node)
+    {
+
+        $STH = $this->DBH->prepare("SELECT * FROM comments WHERE fileid=:id and path LIKE (:node,'%') ORDER BY path");
+        $STH->bindValue(":id", $id);
+        $STH->bindValue(":node", $node);
+        $STH->execute();
+        return $STH->fetchAll(PDO::FETCH_CLASS, "comment");
+    }
+
+    public function deleteComment($node)
+    {
+        $STH = $this->DBH->prepare("DELETE FROM comments WHERE path LIKE (:node,'%')");
+        $STH->execute();
+    }
+
+    public function editeComment(Comment $comment)
+    {
+        $STH = $this->DBH->prepare("UPDATE comments SET (text) 
+            VALUES (:text) WHERE id:=:id");
+
+        $STH->bindvalue(":id", $comment->getID());
+        $STH->bindvalue(":text", $comment->getText());
+            
+
+        $STH->execute();
+        $comment->setID($this->DBH->lastInsertId());
+    }
+    }
     
 }
